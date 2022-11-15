@@ -31,6 +31,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<CustomerInvoiceContext>();
+    dataContext.Database.EnsureCreated();
+    dataContext.Database.Migrate();
+}
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
